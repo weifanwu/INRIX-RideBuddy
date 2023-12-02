@@ -117,7 +117,7 @@ function App(props) {
       geocode[0] = lat;
       geocode[1] = lng;
       console.log("Inside getGeocode: ", geocode);
-      
+
     })
     .catch((err) => console.log(err))
 
