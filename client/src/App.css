@@ -1,0 +1,30 @@
+.all {
+  background-color: antiquewhite;
+}
+
+.form-part {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 100px;
+}
+
+.post-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.post-form input{
+  width: 300px;
+  margin: 10px;
+}
+
+.post-form .form-btn {
+  color: rgb(157, 65, 139);
+  background-color: rgb(216, 186, 216);
+  width: 150px;
+  margin-top: 20px;
+  margin-left: 30px;
+}
