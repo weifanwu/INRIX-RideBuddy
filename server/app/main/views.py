@@ -13,11 +13,11 @@ from . import main
 def index():
     db.drop_all()
     db.create_all()
-    # u1 = User(id=1, email="test@gmail.com", password = "123456", username="test", gender="non-binary", age=18, city="Seattle", mbti="REST")
+    u1 = User(id=1, name="test", email="test@gmail.com", password="123456", gender="non-binary", age=18, city="Seattle", occupation="student")
     r1 = Rider(id=1, start=-33.8, end=442.5, content="Travel", time=datetime.utcnow(), user_id=1)
     r2 = Rider(id=2, start=-33.8, end=442.5, content="Travel", time=datetime.utcnow(), user_id=1)
     r3 = Rider(id=3, start=-33.8, end=442.5, content="Travel", time=datetime.utcnow(), user_id=1)
-    # db.session.add(u1)
+    db.session.add(u1)
     db.session.add(r1)
     db.session.add(r2)
     db.session.add(r3)
