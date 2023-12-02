@@ -32,10 +32,9 @@ export default function Map(props) {
     useEffect(() => {
       console.log("test Get Post Data!");
       let allPosts = [];
+      // '/testGetPost?lat1=${lat1}&lng1=${lng1}&lat2=${lat2}&lng2=${lng2}'
 
-      // declare the async data fetching function
-
-      fetch("/testGetPost", {
+      fetch(`/testGetPost`, {
           method: "GET"
       }).then((res => res.json()))
       .then(data => {

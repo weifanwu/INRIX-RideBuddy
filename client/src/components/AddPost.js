@@ -54,24 +54,6 @@ function App(props) {
     const coo_destination = await getGeocode(destination);
     console.log(coo_origin, coo_destination);
 
-    // convert address to la/ln
-    // const originData = await getGeocode(origin);
-    // const {lat, lng} = await getLatLng(originData[0]);
-    // console.log(lat, lng);
-
-    // test for fetch a geocoder information
-    // `https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=${API_KEY}
-    // fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=Space+Needle,+Broad+Street,+Seattle,+WA&key=${API_KEY}`, {
-    //   method: "GET"
-    // }).then((res => res.json()))
-    // .then(data => {
-    //   // console.log(data.results[0]);
-    //   const lat = data.results[0].geometry.location.lat;
-    //   const lng = data.results[0].geometry.location.lng;
-    //   // console.log(lat, lng);
-    // })
-    // .catch((err) => console.log(err))
-
     // this.setGeocode()
     console.log(origin)
     console.log(destination)
