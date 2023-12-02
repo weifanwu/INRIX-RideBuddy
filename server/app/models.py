@@ -12,13 +12,24 @@ class Initialization:
 
 class User(db.Model):
     __tablename__ = 'users'
+    #     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Primary Key',
+    # name VARCHAR(255),
+    # email VARCHAR(255),
+    # password VARCHAR(255) NOT NULL,
+    # username VARCHAR(255) NOT NULL,
+    # gender VARCHAR(255),
+    # age INT,
+    # city VARCHAR(255),
+    # occupation VARCHAR(255)
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(128))
+
     gender = db.Column(db.String(20))
     age = db.Column(db.Integer)
     city = db.Column(db.String(100))
-    mbti = db.Column(db.String(4))
+    occupation = db.Column(db.String(100))
     # Relationships
     conversation_info = db.relationship('Conversation', backref='users', lazy=True)
     message_info = db.relationship('Message', backref='users', lazy=True)

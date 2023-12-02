@@ -4,15 +4,12 @@ import ChatInput from "./ChatInput.js";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import socket from "../utils/socket.js";
-import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 
 export default function ChatContainer({ currentChat, currentSocket }) {
   const sendMessageRoute = "";
   const recieveMessageRoute = "";
   const [messages, setMessages] = useState([]);
   const scrollRef = useRef();
-  const navigate = useNavigate();
 
   // useEffect(async () => {
   //   const data = await JSON.parse(
@@ -40,7 +37,7 @@ export default function ChatContainer({ currentChat, currentSocket }) {
     console.log("this is the messages: ");
     console.log(messages);
   });
-
+  
 
   const handleSendMsg = async (msg) => {
     // const data = await JSON.parse(
@@ -81,10 +78,6 @@ export default function ChatContainer({ currentChat, currentSocket }) {
 
   return (
     <Container>
-      <Button variant="contained" color="success" onClick={() => {
-        console.log("test change button");
-        navigate("/map");
-      }}>Test the Start!</Button>
       <div className="chat-header">
         <div className="user-details">
           <div className="avatar">
