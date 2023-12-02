@@ -7,7 +7,11 @@ from app import db
 from app.models import User, Rider
 from config import Config
 from . import main
+from app import distance
 
+# Global Variables
+form_start = None
+form_end = None
 
 @main.route('/')
 def index():
@@ -26,8 +30,12 @@ def index():
 
 @main.route('/postData', methods=['POST'])
 def postData():
+    global form_start
+    global form_end
     data = request.get_json()
+    print("Type: ", type(data['start']))
     print(data['start'], data['end'])
+    form_start, form_end = data['start'], data['end']
 
     print("End: " + str(data['end']))
     print("Start: " + str(data['start']))
@@ -36,56 +44,16 @@ def postData():
 
     return {"response": 'success'}
 
-"""
-post_data = {
-    {
-        post_id = 1;
-        start: Space Needle, Broad Street, Seattle, WA;
-        end: Nana’s Green Tea, Stewart Street, Seattle, WA;
-    }
-
-    {
-        post_id = 2;
-        start: [47.625168, -122.337751]
-        end: [47.625168, -122.337751];
-    }
-
-    {
-        post_id = 3;
-        start: [47.625168, -122.337751]
-        end: [47.625168, -122.337751];
-    }
-}
-"""
 
 @main.route('/testGetPost', methods=['GET'])
 def testGetPost():
     # get all post data from database
     # find the nearest posts for start and end position
-    # try to print information
-    data = [
-        {
-            "post_id": 1,
-            "start": [47.625168, -122.337751],
-            "end": [47.613086, -122.347959]
-        },
-        {
-            "post_id": 2,
-            "start": [47.627349, -122.350069],
-            "end": [47.618956, -122.344144]
-        },
-        {
-            "post_id": 3,
-            "start": [47.629377, -122.365400],
-            "end": [47.627721, -122.363818]
-        },
-        {
-            "post_id": 4,
-            "start": [47.636557, -122.341701],
-            "end": [47.665757, -122.337685]
-        }
-    ]
-    return jsonify(data)
+    start, end = form_start, form_end
+    data1 = distance.match(start, end)
+    print("Print Matched Data",data1)
+
+    return jsonify(data1)
     # return json.dumps(data)
 
 @main.route('/json')
