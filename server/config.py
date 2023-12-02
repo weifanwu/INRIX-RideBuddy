@@ -7,8 +7,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 # This class is created to prepare configs
 class Config:
     user = 'root'
-    # password = 'inrixhack'
-    password = 'Peter12345'
+    password = 'inrixhack'
+    # password = 'Peter12345'
     database = 'django_db'
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%s:%s@127.0.0.1:3306/%s' % (user, password, database)
 
@@ -21,8 +21,8 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     user = 'root'
-    # password = 'inrixhack'
-    password = 'Peter12345'
+    password = 'inrixhack'
+    # password = 'Peter12345'
     database = 'django_db'
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%s:%s@127.0.0.1:3306/%s' % (user, password, database)
     # WTF_CSRF_ENABLED = False
