@@ -1,9 +1,9 @@
 from datetime import datetime
 
 from flask import Flask, request, json, jsonify
-from sqlalchemy import desc
-from flask_cors import CORS,cross_origin
+from flask_cors import CORS, cross_origin
 from app import db
+from app.utils.auth_utils import get_token
 from app.models import User, Rider
 from config import Config
 from . import main
@@ -13,7 +13,8 @@ from . import main
 def index():
     db.drop_all()
     db.create_all()
-    u1 = User(id=1, name="test", email="test@gmail.com", password="123456", gender="non-binary", age=18, city="Seattle", occupation="student")
+    u1 = User(id=1, name="test", email="test@gmail.com", password="123456", gender="non-binary", age=18, city="Seattle",
+              occupation="student")
     r1 = Rider(id=1, start=-33.8, end=442.5, content="Travel", time=datetime.utcnow(), user_id=1)
     r2 = Rider(id=2, start=-33.8, end=442.5, content="Travel", time=datetime.utcnow(), user_id=1)
     r3 = Rider(id=3, start=-33.8, end=442.5, content="Travel", time=datetime.utcnow(), user_id=1)
@@ -23,6 +24,7 @@ def index():
     db.session.add(r3)
     db.session.commit()
     return "<h1 > Home Page </hi>"
+
 
 @main.route('/postData', methods=['POST'])
 def postData():
@@ -35,6 +37,7 @@ def postData():
     print("Content: " + data['content'])
 
     return {"response": 'success'}
+
 
 """
 post_data = {
@@ -57,6 +60,7 @@ post_data = {
     }
 }
 """
+
 
 @main.route('/testGetPost', methods=['GET'])
 def testGetPost():
@@ -88,6 +92,7 @@ def testGetPost():
     return jsonify(data)
     # return json.dumps(data)
 
+
 @main.route('/json')
 def send_json():
     data = {
@@ -96,6 +101,7 @@ def send_json():
         "city": "New York"
     }
     return json.dumps(data)
+
 
 @main.route('/SignUp', methods=['POST', 'OPTIONS'])
 @cross_origin()
@@ -107,6 +113,7 @@ def register():
     db.session.add(new_user)
     db.session.commit()
     return jsonify({"message": "Sign Up Successful"})
+
 
 @main.route('/SignIn', methods=['POST', 'OPTIONS'])
 @cross_origin()
