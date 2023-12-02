@@ -5,20 +5,23 @@ import { InfoWindow } from "@react-google-maps/api";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
+import IconButton from '@mui/material/IconButton';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SendIcon from '@mui/icons-material/Send';
-import { useNavigate } from "react-router-dom";
+
 
 export default function Map(props) {
     const center = { lat: 47.625168, lng: -122.337751 };
     let location = useLocation();
-    const navigate = useNavigate();
 
     const [map, setMap] = useState(/** @type google.maps.Map */ (null))
+    const [selectedMarker, setSelectedMarker] = useState(null);
     const [open, setOpen] = useState(false);
     const [start, setStart] = useState();
     const [end, setEnd] = useState();
@@ -117,7 +120,7 @@ export default function Map(props) {
             <CardContent>
               <Typography variant="body2" color="text.secondary">
                 <div>
-                  start latitude, longtitude:
+                  start latitude, longtitude: 
                   {parseFloat(start['lat'].toFixed(3))},
                   {parseFloat(start['lng'].toFixed(3))}
                 </div>
@@ -129,18 +132,13 @@ export default function Map(props) {
               </Typography>
             </CardContent>
             <CardActions style={{ display: 'flex', justifyContent: 'center' }}>
-              <Button variant="contained" endIcon={<SendIcon/>} onClick={() => {
-                // alert('clicked');
-                navigate("/chat")
-                console.log('test button print');
-              }}>Chat Test</Button>
+              <Button variant="contained" endIcon={<SendIcon/>}>Chat</Button>
             </CardActions>
           </Card>
         </InfoWindow>
       )}
-      {open && <DirectionsRenderer directions={props.directions} />}
     </GoogleMap>
-
+        
       </div>
     );
 }

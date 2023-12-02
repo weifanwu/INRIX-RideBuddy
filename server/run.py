@@ -1,8 +1,12 @@
 from flask import request
 from flask_socketio import SocketIO, emit
 from app import create_app, db
+from flask_cors import CORS
 
 app = create_app('development')
+CORS(app, supports_credentials=True)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 # Your models and routes go here...
