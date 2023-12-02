@@ -24,23 +24,7 @@ export default function Map(props) {
 
     const [posts, setPosts] = useState([]);
 
-    // let posts = [
-    //   {
-    //     id: 1,
-    //     start: { lat:47.627349, lng: -122.350069 },
-    //     end: {lat: 47.618956, lng: -122.344144}
-    //   },
-    //   {
-    //     id: 2,
-    //     start: { lat: 47.618956, lng: -122.344144 },
-    //     end: { lat: 47.36171, lng: -122.18576 },
-    //   },
-    //   {
-    //     id: 3,
-    //     start: { lat: 47.613086, lng: -122.347959 },
-    //     end: { lat:47.627349, lng: -122.350069 }
-    //   }
-    // ];
+    const [marker, setMarker] = useState(false);
 
     // Get all nearest posts from backend later
     // set up new posts data for testing multiple markers
@@ -58,10 +42,8 @@ export default function Map(props) {
         console.log(data);
         console.log("start for loop");
         for (let i = 0; i < data.length; i++) {
-          console.log(data[i]);
-          console.log(data[i].start);
-          console.log(data[i].end);
           console.log(data[i].post_id);
+          console.log(data[i]);
           allPosts.push({
             id: parseInt(data[i].post_id),
             start: {lat: data[i].start[0], lng: data[i].start[1]},
@@ -74,37 +56,12 @@ export default function Map(props) {
       .catch((err) => console.log(err))
 
         // Change posts state
-      // setPosts(allPosts);
+      setMarker(true);
       console.log("test posts: ")
       console.log(posts);
 
    }, [])
 
-    // async function testGetData() {
-    //   console.log("test Get Post Data")
-    //   fetch("/testGetPost", {
-    //     method: "GET"
-    //   }).then((res => res.json()))
-    //   .then(data => {
-    //     console.log(data);
-    //     console.log("start for loop");
-    //     for (let i = 0; i < data.length; i++) {
-    //       console.log(data[i]);
-    //       console.log(data[i].start);
-    //       console.log(data[i].end);
-    //       console.log(data[i].post_id);
-    //       posts.push({
-    //         id: parseInt(data[i].post_id),
-    //         start: {lat: data[i].start[0], lng: data[i].start[1]},
-    //         end: {lat: data[i].end[0], lng: data[i].end[1]}
-    //       })
-    //     }
-    //     console.log(posts);
-    //   })
-    //   .catch((err) => console.log(err))
-    // }
-
-    // testGetData();
 
     return (
       <div className='show-map'>
@@ -121,8 +78,9 @@ export default function Map(props) {
       }}
       onLoad={(map) => setMap(map)}
     >
+      <DirectionsRenderer directions={props.directions} />
 
-      {posts.map((object, i) => (
+      {marker && (posts.map((object, i) => (
         <Marker
           key={i}
           position={object.start}
@@ -132,8 +90,9 @@ export default function Map(props) {
             setOpen(true);
           }}
         />
-      ))}
-      <DirectionsRenderer directions={props.directions} />
+      )))
+      }
+
       {open && (
         <InfoWindow position={start} onCloseClick={() => setOpen(false)}>
           <Card sx={{ maxWidth: 345 }}>
