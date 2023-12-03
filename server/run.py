@@ -22,8 +22,8 @@ app.config['JWT_COOKIE_SAMESITE'] = 'None'
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = False
 app.config['JWT_REFRESH_TOKEN_EXPIRES'] = False
 # secret key
-# app.config['JWT_SECRET_KEY'] = 'your-secret-key' 
-app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
+app.config['JWT_SECRET_KEY'] = 'your-secret-key' 
+# app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
 jwt = JWTManager(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
