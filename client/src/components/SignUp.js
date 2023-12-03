@@ -135,15 +135,21 @@ export default function SignUp() {
         value={profile.confirmPassword}
         onChange={handleChange}
         />
-        <TextField
-          fullWidth
-          variant="outlined"
-          margin="normal"
-          name="age"
-          label="Age"
-          value={profile.age}
-          onChange={handleChange}
-        />
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Age</InputLabel>
+          <Select
+            name="age"
+            value={profile.age}
+            label="Age"
+            onChange={handleChange}
+          >
+            <MenuItem value={0}>&lt;18</MenuItem>
+            <MenuItem value={1}>18 ~ 25</MenuItem>
+            <MenuItem value={2}>30 ~ 40</MenuItem>
+            <MenuItem value={3}>40 ~ 50</MenuItem>
+            <MenuItem value={4}>50+</MenuItem>
+          </Select>
+        </FormControl>
         <TextField
           fullWidth
           variant="outlined"

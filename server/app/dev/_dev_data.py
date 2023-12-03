@@ -11,7 +11,7 @@ for i in range(1, 21):
         "email": fake.email(),
         "password": fake.password(),
         "gender": random.choice(["Male", "Female", "Other"]),
-        "age": random.randint(18, 70),
+        "age": random.randint(0, 5),
         "city": fake.city(),
         "occupation": fake.job()
     }
@@ -44,8 +44,8 @@ def generate_coord(lat_min, lat_max, lon_min, lon_max):
 
 
 for i in range(1, num_riders + 1):
-    start_lat, start_lon = generate_coord(47.4957, 47.7341, -122.4359, -122.2359)
-    end_lat, end_lon = generate_coord(47.4957, 47.7341, -122.4359, -122.2359)
+    start_lat, start_lon = generate_coord(37.7, 37.8, -122.5, -122.4)
+    end_lat, end_lon = generate_coord(37.7, 37.8, -122.5, -122.4)
 
     rider = {
         "id": i,

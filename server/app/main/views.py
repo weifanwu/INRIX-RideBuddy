@@ -82,7 +82,7 @@ def register():
 
     try:
         new_user = User(name=data['name'], email=data['email'], password_hash=generate_password_hash(data['password']),
-                        age=int(data['age']), gender=data['gender'], city=data['city'])
+                        age=data['age'], gender=data['gender'], city=data['city'])
         db.session.add(new_user)
         db.session.commit()
     except IntegrityError as e:
