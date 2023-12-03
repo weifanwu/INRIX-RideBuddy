@@ -7,6 +7,7 @@ from app import db
 from app.models import User, Rider
 from config import Config
 from . import main
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 
 
 @main.route('/')
@@ -25,16 +26,16 @@ def index():
     return "<h1 > Home Page </hi>"
 
 @main.route('/postData', methods=['POST'])
+@jwt_required()
 def postData():
+    user_id = get_jwt_identity()
     data = request.get_json()
-    print(data['start'], data['end'])
+    # TODO: add user_id
 
-    print("End: " + str(data['end']))
-    print("Start: " + str(data['start']))
-    print("Date: " + data['date'])
-    print("Content: " + data['content'])
-
-    return {"response": 'success'}
+    new_rider = Rider(start=data['start'], end=data['end'], content=data['content'], time=datetime.utcnow(), user_id=user_id)
+    db.session.add(new_rider)
+    db.session.commit()
+    return jsonify({"message": "Post Successful"})
 
 """
 post_data = {
@@ -93,7 +94,7 @@ def register():
     if request.method == 'OPTIONS':
         return jsonify({"message": "Prelight check successful"})
     data = request.json
-    new_user = User(name=data['name'], city=data['city'], age=int(data['age']), password=data['password'],
+    new_user = User(name=data['name'], city=data['city'], age=int(data['age']), password_hash=data['password'],
                     gender=data['gender'], email=data['email'])
     db.session.add(new_user)
     db.session.commit()
@@ -105,6 +106,8 @@ def login():
     data = request.json
     user = User.query.filter_by(email=data['email'], password=data['password']).first()
     if user:
-        return jsonify({"message": "Sign In Successful"})
+        # 创建JWT令牌
+        access_token = create_access_token(identity=user.id)
+        return jsonify(access_token=access_token, message="Sign In Successful")
     else:
         return jsonify({"message": "Wrong Username or password"}), 401
