@@ -4,6 +4,7 @@ from app.utils.find_routes import get_route
 from flask import Flask, request, json, jsonify, render_template
 from flask_cors import CORS, cross_origin
 from sqlalchemy.exc import IntegrityError
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db
 from app.models import User, Rider
@@ -124,7 +125,10 @@ def login():
     data = request.json
 
     user = User.query.filter_by(email=data['email']).first()
-    if check_password_hash(user.password_hash, data['password']):
-        return jsonify({"message": "Sign In Successful"}), 200
+    if user:
+        # 创建JWT令牌
+        access_token = create_access_token(identity=user.id)
+        return jsonify(access_token=access_token, message="Sign In Successful")
     else:
         return jsonify({"message": "Wrong Username or Password"}), 401
+

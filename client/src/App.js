@@ -15,7 +15,7 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path='/' exact element={<AddPost setDirections={setDirectionsResponse} />} />
+          <Route path='/post' exact element={<AddPost setDirections={setDirectionsResponse} />} />
           <Route path='/map' exact element={<Map directions={directionsResponse}/>} />
           <Route path='/chat' exact element={<ChatPanel/>} />
           <Route path='/SignUp' exact element={<SignUp/>} />

@@ -8,6 +8,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Grid, TextField, Button, Container, Box,FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { message } from "antd";
 
 function Copyright(props) {
   return (
@@ -27,6 +29,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const [profile, setProfile] = React.useState({
     name: '',
     city: '',
@@ -46,11 +49,11 @@ export default function SignUp() {
     console.log(profile);
     // TODO: confirm password
     if (profile.password.length < 8) {
-      alert("Password must be at least 8 characters long!");
+      message.error("Password must be at least 8 characters long!");
       return;
     }
     if (profile.password !== profile.confirmPassword) {
-      alert("Passwords do not match!");
+      message.error("Passwords do not match!");
       return;
     }
     // TODO: Send data to server
@@ -73,9 +76,13 @@ export default function SignUp() {
       })
       .then((data) => {
         console.log('Success:', data);
+        localStorage.setItem("username", data.name);
+        message.success("Success!");
+        navigate("/post");
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.log("Error: ", error);
+        message.error('Error!');
       })
   };
 

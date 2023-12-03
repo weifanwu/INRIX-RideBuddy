@@ -59,12 +59,16 @@ function App(props) {
     console.log(destination)
     console.log(date)
     console.log(content)
+    const email = localStorage.getItem("email");
+    console.log("this is emaail in the post: ");
+    console.log(email);
     fetch("/postData", {
       method: "POST",
       headers: {
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
+        email: email,
         start: coo_origin,
         end: coo_destination,
         date: date,
@@ -107,6 +111,7 @@ function App(props) {
   }
 
   async function showRoute() {
+    const points = await fetch("");
     // eslint-disable-next-line no-undef
     const directionsService = new google.maps.DirectionsService()
     const results = await directionsService.route({

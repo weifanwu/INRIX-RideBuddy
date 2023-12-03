@@ -228,7 +228,7 @@ export default function Map(props) {
                 // alert('clicked');
                 navigate("/chat")
                 console.log('test button print');
-              }}>Chat Test</Button>
+              }}>Start Chat</Button>
             </CardActions>
           </Card>
         </InfoWindow>
