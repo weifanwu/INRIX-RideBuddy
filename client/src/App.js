@@ -8,15 +8,15 @@ import SignUp from './components/SignUp';
 
 function App() {
 
-  const [directionsResponse, setDirectionsResponse] = useState(null)
+  const [points, setPoints] = useState([])
 
 
   return (
     <>
       <Router>
         <Routes>
-          <Route path='/post' exact element={<AddPost setDirections={setDirectionsResponse} />} />
-          <Route path='/map' exact element={<Map directions={directionsResponse}/>} />
+          <Route path='/post' exact element={<AddPost setPoints={setPoints} />} />
+          <Route path='/map' exact element={<Map points={points}/>} />
           <Route path='/chat' exact element={<ChatPanel/>} />
           <Route path='/SignUp' exact element={<SignUp/>} />
           <Route path='/SignIn' exact element={<SignIn/>} />

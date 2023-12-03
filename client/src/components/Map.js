@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { useJsApiLoader, GoogleMap, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api'
+import { useJsApiLoader, GoogleMap, Marker, Polyline, Autocomplete, DirectionsRenderer } from '@react-google-maps/api'
 import { useLocation } from 'react-router-dom';
 import { InfoWindow } from "@react-google-maps/api";
 import Card from '@mui/material/Card';
@@ -15,7 +15,15 @@ import { useNavigate } from "react-router-dom";
 import FilterSidebar from "./filter";
 
 export default function Map(props) {
-    const center = { lat: 37.762933, lng: -122.396736 };
+
+
+
+    const path = props.points;
+
+
+
+
+    const center = path[0];
     const navigate = useNavigate();
 
     const [map, setMap] = useState(/** @type google.maps.Map */ (null))
@@ -40,7 +48,6 @@ export default function Map(props) {
     // set up new posts data for testing multiple markers
 
     useEffect(() => {
-      console.log("test Get Post Data!");
       let allPosts = [];
 
       fetch(`/testGetPost`, {
@@ -166,6 +173,12 @@ export default function Map(props) {
         />
       )))
       }
+
+      <Polyline
+              path={path}
+              strokeColor="#FF0000"
+              strokeOpacity={0.8}
+              strokeWeight={2} />
 
       {open && (
         <InfoWindow position={start} onCloseClick={() => setOpen(false)}>
