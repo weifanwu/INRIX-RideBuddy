@@ -10,8 +10,7 @@ export default function Contacts({ contacts, changeChat }) {
     <>
         <Container>
           <div className="brand">
-            <img src="/" alt="/" />
-            <h3>snappy</h3>
+            <h3>Back to Map</h3>
           </div>
           <div className="contacts">
                 <div

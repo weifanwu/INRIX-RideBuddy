@@ -38,7 +38,6 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     });
-    // TODO: Add code to send data to server here.
     const JsonData = JSON.stringify({
       email: data.get('email'),
       password: data.get('password'),
@@ -51,7 +50,14 @@ export default function SignIn() {
       },
       body: JsonData,
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          alert('Failed to sign in');
+          throw new Error('Failed to sign in');
+        }
+      })
       .then((data) => {
         console.log('Success:', data);
       })
