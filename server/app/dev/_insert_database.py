@@ -1,6 +1,5 @@
 from app.models import *
 from ._dev_data import *
-import datetime
 
 
 def insert_user():

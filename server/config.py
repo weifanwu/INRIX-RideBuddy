@@ -6,13 +6,12 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 # This class is created to prepare configs
 class Config:
-
     user = 'admin'
     # password = 'inrixhack'
     password = 'Peter12345'
     database = 'RideBudyDB'
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%s:%s@database-2.cguewozep1hd.us-east-1.rds.amazonaws.com:3306/%s' % (user, password, database)
-
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%s:%s@database-2.cguewozep1hd.us-east-1.rds.amazonaws.com:3306/%s' % (
+    user, password, database)
 
     @staticmethod
     def init_app(app):
@@ -27,7 +26,8 @@ class DevelopmentConfig(Config):
     # password = 'inrixhack'
     password = 'Peter12345'
     database = 'RideBudyDB'
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%s:%s@database-2.cguewozep1hd.us-east-1.rds.amazonaws.com:3306/%s' % (user, password, database)
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%s:%s@database-2.cguewozep1hd.us-east-1.rds.amazonaws.com:3306/%s' % (
+        user, password, database)
 
     # WTF_CSRF_ENABLED = False
     # Handle with browser not updating automatically
@@ -37,14 +37,23 @@ class DevelopmentConfig(Config):
 # Testing Database URL is configured here.
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
-                              'sqlite://'
+
+    user = 'admin'
+    # password = 'inrixhack'
+    password = 'Peter12345'
+    database = 'RideBudyDB'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%s:%s@database-2.cguewozep1hd.us-east-1.rds.amazonaws.com:3306/%s' % (
+        user, password, database)
 
 
 # Production Database URL is configured here.
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-                              'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    user = 'admin'
+    # password = 'inrixhack'
+    password = 'Peter12345'
+    database = 'RideBudyDB'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%s:%s@database-2.cguewozep1hd.us-east-1.rds.amazonaws.com:3306/%s' % (
+        user, password, database)
 
 
 # config dictionary registered different environments(use development as default)

@@ -1,11 +1,10 @@
-from datetime import datetime
-
 from flask import Flask, request, json, jsonify, render_template
 from flask_cors import CORS, cross_origin
+from sqlalchemy.exc import IntegrityError
+
 from app import db
 from app.utils.auth_utils import get_token
-from app.models import User, Rider
-from config import Config
+from app.models import *
 from . import main
 from app import distance
 from app.dev._insert_database import reset, insert_all
@@ -58,7 +57,7 @@ def testGetPost():
     # find the nearest posts for start and end position
     start, end = form_start, form_end
     data1 = distance.match(start, end)
-    print("Print Matched Data",data1)
+    print("Print Matched Data", data1)
 
     return jsonify(data1)
     # return json.dumps(data)
@@ -80,10 +79,14 @@ def register():
     if request.method == 'OPTIONS':
         return jsonify({"message": "Prelight check successful"})
     data = request.json
-    new_user = User(name=data['name'], city=data['city'], age=int(data['age']), password=data['password'],
-                    gender=data['gender'], email=data['email'])
-    db.session.add(new_user)
-    db.session.commit()
+    try:
+        new_user = User(name=data['name'], email=data['email'], password=generate_password_hash(data['password']),
+                        age=int(data['age']), gender=data['gender'], city=data['city'])
+        db.session.add(new_user)
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollback()
+        return jsonify({"message": "Please try again"}), 401
     return jsonify({"message": "Sign Up Successful"})
 
 
@@ -91,8 +94,8 @@ def register():
 @cross_origin()
 def login():
     data = request.json
-    user = User.query.filter_by(email=data['email'], password=data['password']).first()
-    if user:
+    user = User.query.filter_by(email=data['email']).first()
+    if check_password_hash(user.password_hash, data['password']):
         return jsonify({"message": "Sign In Successful"})
     else:
         return jsonify({"message": "Wrong Username or password"}), 401

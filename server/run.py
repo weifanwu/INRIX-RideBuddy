@@ -1,4 +1,3 @@
-from flask import request
 from flask_socketio import SocketIO, emit
 from app import create_app, db
 from flask_cors import CORS
