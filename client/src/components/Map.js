@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import FilterSidebar from "./filter";
 
 export default function Map(props) {
-    const center = { lat: 47.625168, lng: -122.337751 };
+    const center = { lat: 37.762933, lng: -122.396736 };
     const navigate = useNavigate();
 
     const [map, setMap] = useState(/** @type google.maps.Map */ (null))
