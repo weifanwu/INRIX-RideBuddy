@@ -68,7 +68,6 @@ class Rider(db.Model):
     start_lat = db.Column(db.Float)
     end_lon = db.Column(db.Float)
     end_lat = db.Column(db.Float)
-    end = db.Column(db.Float)
     content = db.Column(db.String(500))
     time = db.Column(db.DateTime, default=datetime.utcnow())
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
