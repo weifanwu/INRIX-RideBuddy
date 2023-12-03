@@ -6,6 +6,8 @@ import socket from "../utils/socket.js";
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import '../ChatInput.css'
 
 const Chatpanel = styled(Card)(({ theme }) => ({
   display: 'grid',
@@ -19,9 +21,10 @@ const Chatpanel = styled(Card)(({ theme }) => ({
 const ChatHeader = styled(Card)(({ theme }) => ({
   width: '100%',
   height: '100%', 
-  backgroundColor: "#3aa2f2",
+  backgroundColor: '#EEE3E5',
   ...theme.typography.body2,
-  textAlign: 'center',
+  fontSize: '20px',
+  textAlign: 'left',
 }));
 
 
@@ -98,7 +101,8 @@ export default function ChatContainer({ currentChat, currentSocket }) {
 
   return (
     <Chatpanel>
-      <ChatHeader variant="outlined">
+      <ChatHeader variant="outlined" className="chat-header">
+        <AccountCircleIcon fontSize="large" className="account-icon"/>
         Weifan
       </ChatHeader>
       <div className="chat-messages">
