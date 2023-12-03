@@ -8,25 +8,17 @@ from app.models import User, Rider
 from config import Config
 from . import main
 from app import distance
+from app.dev._insert_database import reset, insert_all
 
 # Global Variables
 form_start = None
 form_end = None
 
+
 @main.route('/')
 def index():
-    db.drop_all()
-    db.create_all()
-    u1 = User(id=1, name="test", email="test@gmail.com", password="123456", gender="non-binary", age=18, city="Seattle",
-              occupation="student")
-    r1 = Rider(id=1, start=-33.8, end=442.5, content="Travel", time=datetime.utcnow(), user_id=1)
-    r2 = Rider(id=2, start=-33.8, end=442.5, content="Travel", time=datetime.utcnow(), user_id=1)
-    r3 = Rider(id=3, start=-33.8, end=442.5, content="Travel", time=datetime.utcnow(), user_id=1)
-    db.session.add(u1)
-    db.session.add(r1)
-    db.session.add(r2)
-    db.session.add(r3)
-    db.session.commit()
+    reset()
+    insert_all()
     return render_template('index.html')
 
 
@@ -38,7 +30,7 @@ def display_token():
     if status_code == 200:
         api_token = response
         return jsonify({'message': api_token})
-    #If the request fails, return the error message
+    # If the request fails, return the error message
     else:
         return jsonify({'message': response})
 
