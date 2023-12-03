@@ -1,33 +1,55 @@
 from datetime import datetime
 
-from flask import Flask, request, json, jsonify
-from sqlalchemy import desc
-from flask_cors import CORS,cross_origin
+from flask import Flask, request, json, jsonify, render_template
+from flask_cors import CORS, cross_origin
 from app import db
+from app.utils.auth_utils import get_token
 from app.models import User, Rider
 from config import Config
 from . import main
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 
+from app import distance
+
+
+# Global Variables
+form_start = None
+form_end = None
 
 @main.route('/')
 def index():
     db.drop_all()
     db.create_all()
+
     u1 = User(id=1, email="test@gmail.com", password = "123456", username="test", gender="non-binary", age=18, address="Seattle",)
     r1 = Rider(id=1, start=-33.8, end=442.5, content="Travel", time=datetime.utcnow(), user_id=1)
     r2 = Rider(id=2, start=-33.8, end=442.5, content="Travel", time=datetime.utcnow(), user_id=1)
     r3 = Rider(id=3, start=-33.8, end=442.5, content="Travel", time=datetime.utcnow(), user_id=1)
-    # db.session.add(u1)
+    db.session.add(u1)
     db.session.add(r1)
     db.session.add(r2)
     db.session.add(r3)
     db.session.commit()
-    return "<h1 > Home Page </hi>"
+    return render_template('index.html')
+
+
+@main.route('/getToken', methods=['GET'])
+def display_token():
+    # This makes the call to the get_token function in the auth_utils.py file
+    response, status_code = get_token()
+    # If the request is successful, return the token
+    if status_code == 200:
+        api_token = response
+        return jsonify({'message': api_token})
+    #If the request fails, return the error message
+    else:
+        return jsonify({'message': response})
+
 
 @main.route('/postData', methods=['POST'])
 @jwt_required()
 def postData():
+
     user_id = get_jwt_identity()
     data = request.get_json()
     # TODO: add user_id
@@ -37,47 +59,18 @@ def postData():
     db.session.commit()
     return jsonify({"message": "Post Successful"})
 
-"""
-post_data = {
-    {
-        post_id = 1;
-        start: Space Needle, Broad Street, Seattle, WA;
-        end: Nana’s Green Tea, Stewart Street, Seattle, WA;
-    }
-
-    {
-        post_id = 2;
-        start: [47.625168, -122.337751]
-        end: [47.625168, -122.337751];
-    }
-
-    {
-        post_id = 3;
-        start: [47.625168, -122.337751]
-        end: [47.625168, -122.337751];
-    }
-}
-"""
 
 @main.route('/testGetPost', methods=['GET'])
 def testGetPost():
     # get all post data from database
     # find the nearest posts for start and end position
-    # try to print information
-    data = [
-        {
-            "post_id": 1,
-            "start": [47.625168, -122.337751],
-            "end": [47.618956, -122.344144]
-        },
-        {
-            "post_id": 2,
-            "start": [47.625168, -122.337751],
-            "end": [47.613086, -122.347959]
-        },
-    ]
-    return jsonify(data)
+    start, end = form_start, form_end
+    data1 = distance.match(start, end)
+    print("Print Matched Data",data1)
+
+    return jsonify(data1)
     # return json.dumps(data)
+
 
 @main.route('/json')
 def send_json():
@@ -87,6 +80,7 @@ def send_json():
         "city": "New York"
     }
     return json.dumps(data)
+
 
 @main.route('/SignUp', methods=['POST', 'OPTIONS'])
 @cross_origin()
@@ -99,6 +93,7 @@ def register():
     db.session.add(new_user)
     db.session.commit()
     return jsonify({"message": "Sign Up Successful"})
+
 
 @main.route('/SignIn', methods=['POST', 'OPTIONS'])
 @cross_origin()

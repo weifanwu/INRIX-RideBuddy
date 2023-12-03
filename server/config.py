@@ -6,11 +6,13 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 # This class is created to prepare configs
 class Config:
+
     user = 'admin'
     # password = 'inrixhack'
     password = 'Peter12345'
     database = 'RideBudyDB'
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%s:%s@database-2.cguewozep1hd.us-east-1.rds.amazonaws.com:3306/%s' % (user, password, database)
+
 
     @staticmethod
     def init_app(app):
@@ -20,11 +22,13 @@ class Config:
 # Development Database URL is configured here.
 class DevelopmentConfig(Config):
     DEBUG = True
+
     user = 'admin'
     # password = 'inrixhack'
     password = 'Peter12345'
     database = 'RideBudyDB'
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%s:%s@database-2.cguewozep1hd.us-east-1.rds.amazonaws.com:3306/%s' % (user, password, database)
+
     # WTF_CSRF_ENABLED = False
     # Handle with browser not updating automatically
     SEND_FILE_MAX_AGE_DEFAULT = timedelta(seconds=2)
