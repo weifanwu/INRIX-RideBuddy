@@ -40,38 +40,12 @@ export default function Map(props) {
     const google = window.google;
     const [filters, setFilters] = useState({});
 
+    const [postname, setPostName] = useState("");
+
+    const testPostName = "testPost";
+
     // Get all nearest posts from backend later
     // set up new posts data for testing multiple markers
-    // function getPost() {
-    //   let allPosts = [];
-
-    //   fetch('/testGetPost', {
-    //       method: "POST",
-    //       headers: {
-    //         'Content-type': 'application/json'
-    //       },
-    //       body: JSON.stringify({
-    //         start: 12,
-    //         end:20
-    //       })
-    //   }).then((res => res.json()))
-    //   .then(data => {
-    //     console.log(data);
-    //     console.log("start for loop");
-    //     for (let i = 0; i < data.length; i++) {
-    //       console.log(data[i].post_id);
-    //       console.log(data[i]);
-    //       allPosts.push({
-    //         id: parseInt(data[i].post_id),
-    //         start: {lat: data[i].start[0], lng: data[i].start[1]},
-    //         end: {lat: data[i].end[0], lng: data[i].end[1]}
-    //       })
-    //     }
-    //       console.log(allPosts);
-    //       setPosts(allPosts);
-    //     })
-    //   .catch((err) => console.log(err))
-    // }
 
     useEffect(() => {
       let allPosts = [];
@@ -88,15 +62,14 @@ export default function Map(props) {
           allPosts.push({
             id: parseInt(data[i].post_id),
             start: {lat: data[i].start[0], lng: data[i].start[1]},
-            end: {lat: data[i].end[0], lng: data[i].end[1]}
+            end: {lat: data[i].end[0], lng: data[i].end[1]},
+            name: data[i].name
           })
         }
-          console.log(allPosts);
-          setPosts(allPosts);
+        console.log(allPosts);
+        setPosts(allPosts);
         })
       .catch((err) => console.log(err))
-
-      // getPost();
 
         // Change posts state
       setMarker(true);
@@ -129,9 +102,6 @@ export default function Map(props) {
       const gender = JSON.parse(filterData).Gender
       const age = JSON.parse(filterData).Age
       const matchingRadius = JSON.parse(filterData).MatchingRadius
-      // console.log(gender)
-      // console.log(age)
-      // console.log(matchingRadius)
 
       setFilters({
         "gender": gender,
@@ -157,15 +127,14 @@ export default function Map(props) {
           allPosts.push({
             id: parseInt(data[i].post_id),
             start: {lat: data[i].start[0], lng: data[i].start[1]},
-            end: {lat: data[i].end[0], lng: data[i].end[1]}
+            end: {lat: data[i].end[0], lng: data[i].end[1]},
+            name: data[i].name
           })
         }
           console.log(allPosts);
           setPosts(allPosts);
         })
       .catch((err) => console.log(err))
-
-      // getPost();
 
         // Change posts state
       setMarker(true);
@@ -198,6 +167,7 @@ export default function Map(props) {
           onClick={() => {
             setStart(object.start);
             setEnd(object.end);
+            setPostName(object.name);
             setOpen(true);
           }}
         />
@@ -219,8 +189,8 @@ export default function Map(props) {
                   R
                 </Avatar>
               }
-              title="Shrimp and Chorizo Paella"
-              subheader="September 14, 2016"
+              title={postname}
+              subheader="December 14, 2023"
             />
             <CardContent>
               <Typography variant="body2" color="text.secondary">
