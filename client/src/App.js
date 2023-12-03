@@ -5,6 +5,7 @@ import AddPost from "./components/AddPost";
 import ChatPanel from "./components/Chat";
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
+import Chattest from './components/Chattest';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
           <Route path='/chat' exact element={<ChatPanel/>} />
           <Route path='/SignUp' exact element={<SignUp/>} />
           <Route path='/SignIn' exact element={<SignIn/>} />
+          <Route path='/chat2' exact element={<Chattest/>} />
         </Routes>
       </Router>
     </>

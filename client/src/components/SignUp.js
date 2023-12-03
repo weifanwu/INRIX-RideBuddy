@@ -114,6 +114,11 @@ export default function SignUp() {
         label="Email"
         value={profile.email}
         onChange={handleChange}
+        inputProps={{
+          pattern: "[a-z0-9._%+-]+@xxx\\.edu"
+        }}
+        // 可选：添加一个辅助文本以提示用户正确的格式
+        helperText="Please enter a valid educational email (e.g., user@xxx.edu)"
         />
         <TextField
           fullWidth
