@@ -51,13 +51,23 @@ def postData():
     return jsonify({"message": "Post Successful"})
 
 
-@main.route('/testGetPost', methods=['GET'])
+@main.route('/testGetPost', methods=['GET', 'POST'])
 def testGetPost():
     # get all post data from database
     # find the nearest posts for start and end position
-    start, end = form_start, form_end
-    data1 = distance.match(start, end)
-    print("Print Matched Data", data1)
+    # start, end = form_start, form_end
+    # data1 = distance.match(start, end)
+    # print("Print Matched Data", data1)
+    data1 = {
+        "post_id": 1,
+        "start": [47.625168, -122.337751],
+        "end": [47.625168, -122.3378]
+    }
+
+    bodydata = request.json
+    print(bodydata)
+    if bodydata is None:
+        print("no body data")
 
     return jsonify(data1)
     # return json.dumps(data)

@@ -37,9 +37,15 @@ export default function Map(props) {
     function getPost() {
       let allPosts = [];
 
-      fetch(`/testGetPost`, {
+      fetch('/testGetPost', {
           method: "POST", 
-          body: {}
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            start: 12,
+            end:20
+          })
       }).then((res => res.json()))
       .then(data => {
         console.log(data);

@@ -57,7 +57,7 @@ function FilterSidebar(props) {
       <List>
         {Object.keys(categories).map((category) => (
           <React.Fragment key={category}>
-            <ListItem button onClick={() => handleClick(category)} style={{backgroundColor: "#99b9f2"}}>
+            <ListItem button onClick={() => handleClick(category)} style={{backgroundColor: "#2375E0"}}>
               <ListItemText primary={category} style={{color: "white"}} />
               {open[category] ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
