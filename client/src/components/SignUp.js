@@ -107,13 +107,13 @@ export default function SignUp() {
           onChange={handleChange}
         />
         <TextField
-          fullWidth
-          variant="outlined"
-          margin="normal"
-          name="city"
-          label="City"
-          value={profile.city}
-          onChange={handleChange}
+        fullWidth
+        variant="outlined"
+        margin="normal"
+        name="email"
+        label="Email"
+        value={profile.email}
+        onChange={handleChange}
         />
         <TextField
           fullWidth
@@ -144,6 +144,15 @@ export default function SignUp() {
           value={profile.age}
           onChange={handleChange}
         />
+        <TextField
+          fullWidth
+          variant="outlined"
+          margin="normal"
+          name="city"
+          label="City"
+          value={profile.city}
+          onChange={handleChange}
+        />
         <FormControl fullWidth margin="normal">
           <InputLabel>Gender</InputLabel>
           <Select
@@ -158,15 +167,6 @@ export default function SignUp() {
             <MenuItem value="not to say">Prefer not to say</MenuItem>
           </Select>
         </FormControl>
-        <TextField
-        fullWidth
-        variant="outlined"
-        margin="normal"
-        name="email"
-        label="Email"
-        value={profile.email}
-        onChange={handleChange}
-        />
           {/* <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
