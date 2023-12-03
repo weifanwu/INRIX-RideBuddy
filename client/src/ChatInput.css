@@ -1,0 +1,26 @@
+.account-icon {
+    margin-top: 15px;
+    margin-right: 10px;
+}
+
+.chat-messages {
+    background-color: rgb(216, 210, 211);
+}
+
+.chat-input {
+    background-color: rgb(238, 227, 229);
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+}
+
+
+.button-container {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 10px;
+}
+
+.button-container input {
+    width: 60%;
+}

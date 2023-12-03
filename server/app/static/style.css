@@ -1,0 +1,22 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+}
+
+.starter-template {
+    text-align: left;
+    margin-top: 20px; /* Adjust this margin as needed */
+}
+
+.starter-template-heading,
+.starter-template-paragraph {
+    margin: 0; /* Remove default margins for h1 and p */
+}
+
+/* Make the navbar text color white */
+.navbar.navbar-expand-lg {
+    background-color: #012d72;
+    color: white !important;
+}

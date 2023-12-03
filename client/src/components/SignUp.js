@@ -1,17 +1,13 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Grid, TextField, Button, Container, Box,FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 function Copyright(props) {
   return (
@@ -31,18 +27,34 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-      // TODO: use axios to send data to server here.
-    const JsonData = JSON.stringify({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const [profile, setProfile] = React.useState({
+    name: '',
+    city: '',
+    age: '',
+    password: '',
+    confirmPassword: '',
+    gender: '',
+    email: '',
+  });
+
+  const handleChange = (e) => {
+    setProfile({ ...profile, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(profile);
+    // TODO: confirm password
+    if (profile.password.length < 8) {
+      alert("Password must be at least 8 characters long!");
+      return;
+    }
+    if (profile.password !== profile.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+    // TODO: Send data to server
+    const JsonData = JSON.stringify(profile);
     console.log(JsonData);
     fetch('/SignUp', {
       method: 'POST',
@@ -51,15 +63,20 @@ export default function SignUp() {
       },
       body: JsonData,
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          alert('Failed to sign up');
+          throw new Error('Failed to sign up');
+        }
+      })
       .then((data) => {
         console.log('Success:', data);
       })
       .catch((error) => {
         console.error('Error:', error);
-      });
-
-
+      })
   };
 
   return (
@@ -80,7 +97,77 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <TextField
+          fullWidth
+          variant="outlined"
+          margin="normal"
+          name="name"
+          label="Name"
+          value={profile.name}
+          onChange={handleChange}
+        />
+        <TextField
+        fullWidth
+        variant="outlined"
+        margin="normal"
+        name="email"
+        label="Email"
+        value={profile.email}
+        onChange={handleChange}
+        />
+        <TextField
+          fullWidth
+          variant="outlined"
+          margin="normal"
+          name="password"
+          label="Password"
+          type='password'
+          value={profile.password}
+          onChange={handleChange}
+        />
+        <TextField
+        fullWidth
+        variant="outlined"
+        margin="normal"
+        name="confirmPassword"
+        label="Confirm Password"
+        type="password" 
+        value={profile.confirmPassword}
+        onChange={handleChange}
+        />
+        <TextField
+          fullWidth
+          variant="outlined"
+          margin="normal"
+          name="age"
+          label="Age"
+          value={profile.age}
+          onChange={handleChange}
+        />
+        <TextField
+          fullWidth
+          variant="outlined"
+          margin="normal"
+          name="city"
+          label="City"
+          value={profile.city}
+          onChange={handleChange}
+        />
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Gender</InputLabel>
+          <Select
+            name="gender"
+            value={profile.gender}
+            label="Gender"
+            onChange={handleChange}
+          >
+            <MenuItem value="male">Male</MenuItem>
+            <MenuItem value="female">Female</MenuItem>
+            <MenuItem value="non-binary">Non-binary</MenuItem>
+            <MenuItem value="not to say">Prefer not to say</MenuItem>
+          </Select>
+        </FormControl>
+          {/* <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -130,12 +217,13 @@ export default function SignUp() {
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
               </Grid>
-            </Grid>
+            </Grid> */}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={handleSubmit}
             >
               Sign Up
             </Button>
@@ -147,7 +235,6 @@ export default function SignUp() {
               </Grid>
             </Grid>
           </Box>
-        </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>

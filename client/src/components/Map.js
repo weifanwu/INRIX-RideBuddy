@@ -26,6 +26,10 @@ export default function Map(props) {
     const [posts, setPosts] = useState([]);
 
     const [marker, setMarker] = useState(false);
+
+    const [additionalRoute, setAdditionalRoute] = useState(null);
+
+    const google = window.google;
     const [filters, setFilters] = useState({});
 
     // Get all nearest posts from backend later
@@ -87,9 +91,27 @@ export default function Map(props) {
       console.log("test posts: ")
       console.log(posts);
 
-   }, [])
+    }, [])
 
-   function getFilterData (data){
+    // Generating an additional route to compare
+    useEffect(() => {
+      const addAdditionalRoute = async () => {
+        if (start && end) {
+          const directionsService = new google.maps.DirectionsService();
+          const results = await directionsService.route({
+            origin: start,
+            destination: end,
+            travelMode: google.maps.TravelMode.DRIVING,
+          });
+
+          setAdditionalRoute(results);
+        }
+      };
+
+      addAdditionalRoute();
+    }, [start, end, google]);
+
+    function getFilterData (data){
       const filterData = JSON.stringify(data)
       const gender = JSON.parse(filterData).Gender
       const age = JSON.parse(filterData).Age
@@ -107,8 +129,7 @@ export default function Map(props) {
 
       const bodyData = filters;
 
-   }
-
+   }    
 
     return (
       
@@ -178,7 +199,10 @@ export default function Map(props) {
           </Card>
         </InfoWindow>
       )}
-      {open && <DirectionsRenderer directions={props.directions} />}
+      {/* Additional/Compared Route */}
+      {additionalRoute && (
+        <DirectionsRenderer directions={additionalRoute} />
+      )}
     </GoogleMap>
       </div>
     );
