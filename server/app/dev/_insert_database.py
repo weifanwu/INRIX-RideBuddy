@@ -5,7 +5,7 @@ from ._dev_data import *
 def insert_user():
     for item in USERS:
         user = User(id=item["id"], name=item["name"], email=item["email"],
-                    password=generate_password_hash(item["password"]),
+                    password_hash=generate_password_hash(item["password"]),
                     gender=item["gender"], age=item["age"], city=item["city"])
         db.session.add(user)
     db.session.commit()

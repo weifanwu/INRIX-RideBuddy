@@ -16,8 +16,8 @@ form_end = None
 
 @main.route('/')
 def index():
-    reset()
-    insert_all()
+    # reset()
+    # insert_all()
     return render_template('index.html')
 
 
@@ -80,7 +80,7 @@ def register():
         return jsonify({"message": "Prelight check successful"})
     data = request.json
     try:
-        new_user = User(name=data['name'], email=data['email'], password=generate_password_hash(data['password']),
+        new_user = User(name=data['name'], email=data['email'], password_hash=generate_password_hash(data['password']),
                         age=int(data['age']), gender=data['gender'], city=data['city'])
         db.session.add(new_user)
         db.session.commit()
