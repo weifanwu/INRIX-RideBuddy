@@ -111,6 +111,7 @@ function App(props) {
   }
 
   async function showRoute() {
+    const points = await fetch("");
     // eslint-disable-next-line no-undef
     const directionsService = new google.maps.DirectionsService()
     const results = await directionsService.route({

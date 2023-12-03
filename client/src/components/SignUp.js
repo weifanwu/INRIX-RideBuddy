@@ -8,6 +8,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Grid, TextField, Button, Container, Box,FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { message } from "antd";
 
 function Copyright(props) {
@@ -28,6 +29,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const [profile, setProfile] = React.useState({
     name: '',
     city: '',
@@ -74,7 +76,9 @@ export default function SignUp() {
       })
       .then((data) => {
         console.log('Success:', data);
+        localStorage.setItem("username", data.name);
         message.success("Success!");
+        navigate("/post");
       })
       .catch((error) => {
         console.log("Error: ", error);
