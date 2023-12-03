@@ -59,12 +59,16 @@ function App(props) {
     console.log(destination)
     console.log(date)
     console.log(content)
+    const email = localStorage.getItem("email");
+    console.log("this is emaail in the post: ");
+    console.log(email);
     fetch("/postData", {
       method: "POST",
       headers: {
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
+        email: email,
         start: coo_origin,
         end: coo_destination,
         date: date,
@@ -107,15 +111,29 @@ function App(props) {
   }
 
   async function showRoute() {
+    const start = originRef.current.value;
+    const end = destiantionRef.current.value;
+    const startData = await getGeocode(start);
+    const endDate = await getGeocode(end);
+    const origin = startData[0] + "," + startData[1];
+    const destination = endDate[0] + "," + endDate[1];
+    const response = await fetch("http://127.0.0.1:5000/findRoute?point1=" + origin + "&point2=" + destination);
+    const information = await response.json();
+    const points = information["information"]
+    console.log("information points:");
+    console.log(points);
     // eslint-disable-next-line no-undef
-    const directionsService = new google.maps.DirectionsService()
-    const results = await directionsService.route({
-      origin: originRef.current.value,
-      destination: destiantionRef.current.value,
+    let wps = [];
+    for (let i = 0; i < points.length; i++) {
+      console.log("coodnats here: ");
+      console.log(points[i][0]);
+      console.log(points[i][1]);
       // eslint-disable-next-line no-undef
-      travelMode: google.maps.TravelMode.DRIVING,
-    })
-    props.setDirections(results)
+      const current = new google.maps.LatLng(points[i][1], points[i][0]);
+      wps.push(current);
+    }
+
+    props.setPoints(wps)
     navigate("/map");
   }
 

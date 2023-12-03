@@ -27,7 +27,6 @@ const ChatHeader = styled(Card)(({ theme }) => ({
   textAlign: 'left',
 }));
 
-
 export default function ChatContainer({ currentChat, currentSocket }) {
   const sendMessageRoute = "";
   const recieveMessageRoute = "";

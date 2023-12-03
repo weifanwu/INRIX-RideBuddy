@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { useJsApiLoader, GoogleMap, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api'
+import { useJsApiLoader, GoogleMap, Marker, Polyline, Autocomplete, DirectionsRenderer } from '@react-google-maps/api'
 import { useLocation } from 'react-router-dom';
 import { InfoWindow } from "@react-google-maps/api";
 import Card from '@mui/material/Card';
@@ -15,7 +15,15 @@ import { useNavigate } from "react-router-dom";
 import FilterSidebar from "./filter";
 
 export default function Map(props) {
-    const center = { lat: 47.625168, lng: -122.337751 };
+
+
+
+    const path = props.points;
+
+
+
+
+    const center = path[0];
     const navigate = useNavigate();
 
     const [map, setMap] = useState(/** @type google.maps.Map */ (null))
@@ -32,20 +40,18 @@ export default function Map(props) {
     const google = window.google;
     const [filters, setFilters] = useState({});
 
+    const [postname, setPostName] = useState("");
+
+    const testPostName = "testPost";
+
     // Get all nearest posts from backend later
     // set up new posts data for testing multiple markers
-    function getPost() {
+
+    useEffect(() => {
       let allPosts = [];
 
-      fetch('/testGetPost', {
-          method: "POST", 
-          headers: {
-            'Content-type': 'application/json'
-          },
-          body: JSON.stringify({
-            start: 12,
-            end:20
-          })
+      fetch(`/testGetPost`, {
+          method: "GET",
       }).then((res => res.json()))
       .then(data => {
         console.log(data);
@@ -56,41 +62,14 @@ export default function Map(props) {
           allPosts.push({
             id: parseInt(data[i].post_id),
             start: {lat: data[i].start[0], lng: data[i].start[1]},
-            end: {lat: data[i].end[0], lng: data[i].end[1]}
+            end: {lat: data[i].end[0], lng: data[i].end[1]},
+            name: data[i].name
           })
         }
-          console.log(allPosts);
-          setPosts(allPosts);
+        console.log(allPosts);
+        setPosts(allPosts);
         })
       .catch((err) => console.log(err))
-    }
-
-    useEffect(() => {
-      console.log("test Get Post Data!");
-      // let allPosts = [];
-
-      // fetch(`/testGetPost`, {
-      //     method: "POST", 
-      //     body: {}
-      // }).then((res => res.json()))
-      // .then(data => {
-      //   console.log(data);
-      //   console.log("start for loop");
-      //   for (let i = 0; i < data.length; i++) {
-      //     console.log(data[i].post_id);
-      //     console.log(data[i]);
-      //     allPosts.push({
-      //       id: parseInt(data[i].post_id),
-      //       start: {lat: data[i].start[0], lng: data[i].start[1]},
-      //       end: {lat: data[i].end[0], lng: data[i].end[1]}
-      //     })
-      //   }
-      //     console.log(allPosts);
-      //     setPosts(allPosts);
-      //   })
-      // .catch((err) => console.log(err))
-
-      getPost();
 
         // Change posts state
       setMarker(true);
@@ -117,28 +96,53 @@ export default function Map(props) {
       addAdditionalRoute();
     }, [start, end, google]);
 
+
     function getFilterData (data){
       const filterData = JSON.stringify(data)
       const gender = JSON.parse(filterData).Gender
       const age = JSON.parse(filterData).Age
       const matchingRadius = JSON.parse(filterData).MatchingRadius
-      // console.log(gender)
-      // console.log(age)
-      // console.log(matchingRadius)
 
       setFilters({
         "gender": gender,
         "age": age,
         "MatchingRadius": matchingRadius[matchingRadius.length-1]
       })
-      console.log(filters)
+      console.log(filters);
 
       const bodyData = filters;
 
-   }    
+      // TODO: need to send filter data to database in future
+      let allPosts = [];
+      fetch(`/testGetPost`, {
+        method: "POST",
+        body: JSON.stringify(bodyData)
+      }).then((res => res.json()))
+      .then(data => {
+        console.log(data);
+        console.log("start for loop");
+        for (let i = 0; i < data.length; i++) {
+          console.log(data[i].post_id);
+          console.log(data[i]);
+          allPosts.push({
+            id: parseInt(data[i].post_id),
+            start: {lat: data[i].start[0], lng: data[i].start[1]},
+            end: {lat: data[i].end[0], lng: data[i].end[1]},
+            name: data[i].name
+          })
+        }
+          console.log(allPosts);
+          setPosts(allPosts);
+        })
+      .catch((err) => console.log(err))
+
+        // Change posts state
+      setMarker(true);
+
+   }
 
     return (
-      
+
       <div className='show-map' style={{display: 'flex'}}>
         <FilterSidebar setAppliedFilters = {getFilterData}/>
         {/* <h1>Find and Match Your Post!</h1> */}
@@ -163,11 +167,18 @@ export default function Map(props) {
           onClick={() => {
             setStart(object.start);
             setEnd(object.end);
+            setPostName(object.name);
             setOpen(true);
           }}
         />
       )))
       }
+
+      <Polyline
+              path={path}
+              strokeColor="#FF0000"
+              strokeOpacity={0.8}
+              strokeWeight={2} />
 
       {open && (
         <InfoWindow position={start} onCloseClick={() => setOpen(false)}>
@@ -178,8 +189,8 @@ export default function Map(props) {
                   R
                 </Avatar>
               }
-              title="Shrimp and Chorizo Paella"
-              subheader="September 14, 2016"
+              title={postname}
+              subheader="December 14, 2023"
             />
             <CardContent>
               <Typography variant="body2" color="text.secondary">
@@ -200,7 +211,7 @@ export default function Map(props) {
                 // alert('clicked');
                 navigate("/chat")
                 console.log('test button print');
-              }}>Chat Test</Button>
+              }}>Start Chat</Button>
             </CardActions>
           </Card>
         </InfoWindow>
