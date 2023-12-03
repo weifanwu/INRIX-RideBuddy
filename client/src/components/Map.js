@@ -26,6 +26,10 @@ export default function Map(props) {
 
     const [marker, setMarker] = useState(false);
 
+    const [additionalRoute, setAdditionalRoute] = useState(null);
+
+    const google = window.google;
+
     // Get all nearest posts from backend later
     // set up new posts data for testing multiple markers
 
@@ -59,24 +63,42 @@ export default function Map(props) {
       console.log("test posts: ")
       console.log(posts);
 
-   }, [])
+    }, [])
 
+    // Generating an additional route to compare
+    useEffect(() => {
+      const addAdditionalRoute = async () => {
+        if (start && end) {
+          const directionsService = new google.maps.DirectionsService();
+          const results = await directionsService.route({
+            origin: start,
+            destination: end,
+            travelMode: google.maps.TravelMode.DRIVING,
+          });
+
+          setAdditionalRoute(results);
+        }
+      };
+
+      addAdditionalRoute();
+    }, [start, end, google]);
 
     return (
       <div className='show-map'>
         <h1>Find and Match Your Post!</h1>
         <GoogleMap
-      center={center}
-      zoom={15}
-      mapContainerStyle={{ width: '1000px', height: '1000px' }}
-      options={{
-        zoomControl: false,
-        streetViewControl: false,
-        mapTypeControl: false,
-        fullscreenControl: false,
-      }}
-      onLoad={(map) => setMap(map)}
-    >
+        center={center}
+        zoom={15}
+        mapContainerStyle={{ width: '1000px', height: '1000px' }}
+        options={{
+          zoomControl: false,
+          streetViewControl: false,
+          mapTypeControl: false,
+          fullscreenControl: false,
+        }}
+        onLoad={(map) => setMap(map)}
+      >
+        
       <DirectionsRenderer directions={props.directions} />
 
       {marker && (posts.map((object, i) => (
@@ -128,7 +150,10 @@ export default function Map(props) {
           </Card>
         </InfoWindow>
       )}
-      {open && <DirectionsRenderer directions={props.directions} />}
+      {/* Additional/Compared Route */}
+      {additionalRoute && (
+        <DirectionsRenderer directions={additionalRoute} />
+      )}
     </GoogleMap>
 
       </div>
