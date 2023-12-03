@@ -10,7 +10,6 @@ from app import db
 from app.models import User, Rider
 from config import Config
 from . import main
-from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 
 from app import distance
 from app.dev._insert_database import reset, insert_all
@@ -75,10 +74,30 @@ def testGetPost():
     start, end = form_start, form_end
 
     if request.method == 'GET':
-        print("GET start, end: ")
-        print(start, end)
-        data1 = distance.match(start, end)
-        print("Print Matched Data", data1)
+        # print("GET start, end: ")
+        # print(start, end)
+        # data1 = distance.match(start, end)
+        # print("Print Matched Data", data1)
+        data1 = [
+                {
+                    "post_id": 1,
+                    "start": [37.76166210095362, -122.44915742860624],
+                    "end":  [37.76166210095362, -122.44915742860624],
+                    "name": 'Jack'
+                },
+                {
+                    "post_id": 2,
+                    "start": [47.637996, -122.301823],
+                    "end": [47.642065, -122.400515],
+                    "name": 'Luke'
+                },
+                {
+                    "post_id": 3,
+                    "start": [47.656190, -122.324949],
+                    "end": [47.653546, -122.391763],
+                    "name": 'Lucy'
+                }
+            ]
         return jsonify(data1)
     elif request.method == 'POST':
         print("POST start, end: ")

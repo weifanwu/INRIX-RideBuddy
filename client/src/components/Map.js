@@ -168,6 +168,7 @@ export default function Map(props) {
             setStart(object.start);
             setEnd(object.end);
             setPostName(object.name);
+            localStorage.setItem("othername", object.name);
             setOpen(true);
           }}
         />

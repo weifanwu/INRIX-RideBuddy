@@ -32,12 +32,6 @@ export default function ChatInput({ handleSendMsg, currentSocket }) {
 
   return (
     <div className="chat-input">
-      <div className="emoji-container">
-        <div className="emoji">
-          <BsEmojiSmileFill onClick={handleEmojiPickerhideShow} />
-          {showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} />}
-        </div>
-      </div>
       <div className="button-container">
         <Input.TextArea
             // style={{marginRight: '10px', marginBottom:'20px', marginLeft: '10px'}}

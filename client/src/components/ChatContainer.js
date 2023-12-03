@@ -8,6 +8,7 @@ import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import '../ChatInput.css'
+import { useNavigate } from "react-router-dom";
 
 const Chatpanel = styled(Card)(({ theme }) => ({
   display: 'grid',
@@ -34,6 +35,10 @@ export default function ChatContainer({ currentChat, currentSocket }) {
   const scrollRef = useRef();
   const user_receive = localStorage.getItem("to");
   const user_send = localStorage.getItem("from");
+  const navigate = useNavigate();
+  const username = localStorage.getItem("username");
+  const othername = localStorage.getItem("othername");
+
   // useEffect(async () => {
   //   const data = await JSON.parse(
   //     localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
@@ -102,7 +107,7 @@ export default function ChatContainer({ currentChat, currentSocket }) {
     <Chatpanel>
       <ChatHeader variant="outlined" className="chat-header">
         <AccountCircleIcon fontSize="large" className="account-icon"/>
-        Weifan
+        {othername}
       </ChatHeader>
       <Card>
         {messages.map((message) => {
