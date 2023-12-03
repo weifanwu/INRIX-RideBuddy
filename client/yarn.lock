@@ -2161,6 +2161,11 @@
   resolved "https://registry.npmjs.org/@stream-io/escape-string-regexp/-/escape-string-regexp-5.0.1.tgz"
   integrity sha512-qIaSrzJXieZqo2fZSYTdzwSbZgHHsT3tkd646vvZhh4fr+9nO4NlvqGmPF43Y+OfZiWf+zYDFgNiPGG5+iZulQ==
 
+"@stream-io/stream-chat-css@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@stream-io/stream-chat-css/-/stream-chat-css-4.1.0.tgz#2d274001e56535606d8849614cb6563cfd8ad9bb"
+  integrity sha512-uFG0ifcghSEckZptxrc7e6v7J6797Rb2dd/2ctYpOt93+1v5J9BnGzZPJUObHF72ZfdRbccQCkuv+7q2LQNSiw==
+
 "@stream-io/transliterate@^1.5.5":
   version "1.5.5"
   resolved "https://registry.npmjs.org/@stream-io/transliterate/-/transliterate-1.5.5.tgz"
@@ -10748,9 +10753,9 @@ stop-iteration-iterator@^1.0.0:
   dependencies:
     internal-slot "^1.0.4"
 
-stream-chat-react@^11.0.0:
+stream-chat-react@^11.1.0:
   version "11.1.0"
-  resolved "https://registry.npmjs.org/stream-chat-react/-/stream-chat-react-11.1.0.tgz"
+  resolved "https://registry.yarnpkg.com/stream-chat-react/-/stream-chat-react-11.1.0.tgz#d7af1bd59aa4d0becf0499b7744d8de4b1a992b8"
   integrity sha512-wRbjao5h/IGT64jF5mbC687rnIZknKXa/2pe5EoeXg7yGU8XJ2Rg9ytQwEbrHvemWSHPAcmPsDCZBk9eORmVOQ==
   dependencies:
     "@braintree/sanitize-url" "^6.0.4"
@@ -10786,9 +10791,11 @@ stream-chat-react@^11.0.0:
     "@stream-io/transliterate" "^1.5.5"
     mml-react "^0.4.7"
 
-stream-chat@^8.14.3:
+
+stream-chat@^8.14.4:
+
   version "8.14.4"
-  resolved "https://registry.npmjs.org/stream-chat/-/stream-chat-8.14.4.tgz"
+  resolved "https://registry.yarnpkg.com/stream-chat/-/stream-chat-8.14.4.tgz#b035fdafc96cc70e36492e7c11d1f6f51a3d878c"
   integrity sha512-V/yTpNPL6+c1FR8u1woKCKjKXRNQ99WaozLt1WuynL1RMjWI8yDtv1VTz4PWrB2efrXCeXzI6SyfMqBQkR0XIw==
   dependencies:
     "@babel/runtime" "^7.16.3"
