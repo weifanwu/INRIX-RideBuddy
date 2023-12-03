@@ -38,7 +38,6 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     });
-    // TODO: Add code to send data to server here.
     const JsonData = JSON.stringify({
       email: data.get('email'),
       password: data.get('password'),

@@ -67,14 +67,7 @@ export default function Chat() {
   return (
     <>
       <Container>
-        <div className="container">
-          <Contacts contacts={contacts} changeChat={handleChatChange} />
-          {/* {currentChat === undefined ? (
-            <Welcome />
-          ) : ( */}
-            <ChatContainer currentChat={currentChat} sendMessage={sendMessage}/>
-          {/* )} */}
-        </div>
+          <ChatContainer currentChat={currentChat} sendMessage={sendMessage}/>
       </Container>
     </>
   );
@@ -88,7 +81,7 @@ const Container = styled.div`
   justify-content: center;
   gap: 1rem;
   align-items: center;
-  background-color: #131324;
+  background-color: white;
   .container {
     height: 85vh;
     width: 85vw;
@@ -98,5 +91,5 @@ const Container = styled.div`
     @media screen and (min-width: 720px) and (max-width: 1080px) {
       grid-template-columns: 35% 65%;
     }
-  }
+  };
 `;
