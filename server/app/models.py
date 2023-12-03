@@ -29,7 +29,6 @@ class User(db.Model):
     gender = db.Column(db.String(20))
     age = db.Column(db.Integer)
     city = db.Column(db.String(100))
-    occupation = db.Column(db.String(100))
     # Relationships
     conversation_info = db.relationship('Conversation', backref='users', lazy=True)
     message_info = db.relationship('Message', backref='users', lazy=True)
