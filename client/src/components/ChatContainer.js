@@ -22,7 +22,7 @@ const Chatpanel = styled(Card)(({ theme }) => ({
 const ChatHeader = styled(Card)(({ theme }) => ({
   width: '100%',
   height: '100%', 
-  backgroundColor: '#EEE3E5',
+  backgroundColor: "lightgrey",
   ...theme.typography.body2,
   fontSize: '20px',
   textAlign: 'left',
@@ -109,7 +109,7 @@ export default function ChatContainer({ currentChat, currentSocket }) {
         <AccountCircleIcon fontSize="large" className="account-icon"/>
         {othername}
       </ChatHeader>
-      <div className="chat-messages">
+      <Card>
         {messages.map((message) => {
             return (
               <div
@@ -121,7 +121,7 @@ export default function ChatContainer({ currentChat, currentSocket }) {
               </div>
             );
           })}
-      </div>
+      </Card>
       <ChatInput handleSendMsg={handleSendMsg} />
     </Chatpanel>
   );

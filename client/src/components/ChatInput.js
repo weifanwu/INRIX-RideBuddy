@@ -2,6 +2,17 @@ import React, { useState } from "react";
 import Picker from "emoji-picker-react";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import '../ChatInput.css'
+// import { Button, Input, TextField } from "@mui/material";
+import {
+  CloseOutlined,
+  FullscreenExitOutlined,
+  FullscreenOutlined,
+  PlusOutlined,
+  SendOutlined,
+  SyncOutlined,
+  UnorderedListOutlined,
+} from '@ant-design/icons';
+import { Button, Input, List, message, Space } from 'antd';
 
 
 export default function ChatInput({ handleSendMsg, currentSocket }) {
@@ -28,15 +39,17 @@ export default function ChatInput({ handleSendMsg, currentSocket }) {
         </div>
       </div>
       <div className="button-container">
-        <input
+        <Input.TextArea
+            // style={{marginRight: '10px', marginBottom:'20px', marginLeft: '10px'}}
+            style={{width: '50%'}}
             type="text"
             placeholder="type your message here"
             onChange={(e) => setMsg(e.target.value)}
             value={msg}
         />
-        <button onClick={() => {handleSendMsg(msg);}}>
+        <Button onClick={() => {handleSendMsg(msg);}}>
             Send Message
-        </button>
+        </Button>
       </div>
     </div>
   );
