@@ -22,3 +22,4 @@ typing_extensions==4.8.0
 Werkzeug==3.0.1
 wsproto==1.2.0
 zipp==3.17.0
+requests==2.31.0

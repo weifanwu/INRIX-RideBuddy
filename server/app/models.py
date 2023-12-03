@@ -30,22 +30,28 @@ class User(db.Model):
     age = db.Column(db.Integer)
     city = db.Column(db.String(100))
     # Relationships
-    conversation_info = db.relationship('Conversation', backref='users', lazy=True)
-    message_info = db.relationship('Message', backref='users', lazy=True)
+    # conversation_info = db.relationship('Conversation', backref='users', lazy=True)
+    sender_info = db.relationship('Message', backref='sender', foreign_keys="Message.sender_id", lazy=True)
+    receiver_info = db.relationship('Message', backref='receiver', foreign_keys="Message.receiver_id", lazy=True)
     rider_info = db.relationship('Rider', backref='users', lazy=True)
 
-class Conversation(db.Model):
-    __tablename__ = 'conversations'
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+# class Conversation(db.Model):
+#     __tablename__ = 'conversations'
+#     id = db.Column(db.Integer, primary_key=True)
+#     user_id1 = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+#     user_id2 = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
 
 class Message(db.Model):
     __tablename__ = 'messages'
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(500), nullable=False)
     send_time = db.Column(db.DateTime, default=datetime.utcnow())
-    conversation_id = db.Column(db.Integer, db.ForeignKey('conversations.id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    # conversation_id = db.Column(db.Integer, db.ForeignKey('conversations.id'), nullable=False)
+    sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
 
 class Rider(db.Model):
     __tablename__ = 'riders'
