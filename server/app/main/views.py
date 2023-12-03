@@ -33,8 +33,8 @@ def index():
 @main.route('/findRoute', methods=['GET'])
 def find_route():
     point1 = request.args.get('point1')
-    point2 = request.args.get('point2')      
-    response,status_code = get_token()
+    point2 = request.args.get('point2')
+    response, status_code = get_token()
     # If the request is successful, return the token
     if status_code == 200:
         api_token = response
@@ -48,39 +48,46 @@ def find_route():
 
 
 @main.route('/postData', methods=['POST'])
-@jwt_required()
 def postData():
+    global form_start
+    global form_end
 
-    user_id = get_jwt_identity()
+    # user_id = get_jwt_identity()
     data = request.get_json()
-    # TODO: add user_id
+    form_start = data['start']
+    form_end = data['end']
+    # print(form_start, form_end)
 
-    new_rider = Rider(start=data['start'], end=data['end'], content=data['content'], time=datetime.utcnow(), user_id=user_id)
-    db.session.add(new_rider)
-    db.session.commit()
-    return jsonify({"message": "Post Successful"})
+    # # TODO: add user_id
+    # new_rider = Rider(start=data['start'], end=data['end'], content=data['content'], time=datetime.utcnow(), user_id=user_id)
+    # db.session.add(new_rider)
+    # db.session.commit()
+    return jsonify({"message": "successfully!"})
 
 
 @main.route('/testGetPost', methods=['GET', 'POST'])
 def testGetPost():
     # get all post data from database
     # find the nearest posts for start and end position
-    # start, end = form_start, form_end
-    # data1 = distance.match(start, end)
-    # print("Print Matched Data", data1)
-    data1 = {
-        "post_id": 1,
-        "start": [47.625168, -122.337751],
-        "end": [47.625168, -122.3378]
-    }
+    global form_start
+    global form_end
+    start, end = form_start, form_end
 
-    bodydata = request.json
-    print(bodydata)
-    if bodydata is None:
-        print("no body data")
-
-    return jsonify(data1)
-    # return json.dumps(data)
+    if request.method == 'GET':
+        print("GET start, end: ")
+        print(start, end)
+        data1 = distance.match(start, end)
+        print("Print Matched Data", data1)
+        return jsonify(data1)
+    elif request.method == 'POST':
+        print("POST start, end: ")
+        print(start, end)
+        # bodydata = request.json
+        # print(bodydata)
+        data2 = distance.match(start, end)
+        for _ in range(3):
+            data2.pop()
+        return jsonify(data2)
 
 
 @main.route('/json')
@@ -109,6 +116,8 @@ def register():
         db.session.rollback()
         return jsonify({"message": "Please Try Again"}), 401
     return jsonify({"message": "Sign Up Successful"}), 200
+
+
 
 @main.route('/SignIn', methods=['POST', 'OPTIONS'])
 @cross_origin()
