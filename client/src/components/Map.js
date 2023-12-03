@@ -12,6 +12,7 @@ import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
 import SendIcon from '@mui/icons-material/Send';
 import { useNavigate } from "react-router-dom";
+import FilterSidebar from "./filter";
 
 export default function Map(props) {
     const center = { lat: 47.625168, lng: -122.337751 };
@@ -25,17 +26,16 @@ export default function Map(props) {
     const [posts, setPosts] = useState([]);
 
     const [marker, setMarker] = useState(false);
+    const [filters, setFilters] = useState({});
 
     // Get all nearest posts from backend later
     // set up new posts data for testing multiple markers
-
-    useEffect(() => {
-      console.log("test Get Post Data!");
+    function getPost() {
       let allPosts = [];
-      // '/testGetPost?lat1=${lat1}&lng1=${lng1}&lat2=${lat2}&lng2=${lng2}'
 
       fetch(`/testGetPost`, {
-          method: "GET"
+          method: "POST", 
+          body: {}
       }).then((res => res.json()))
       .then(data => {
         console.log(data);
@@ -53,6 +53,34 @@ export default function Map(props) {
           setPosts(allPosts);
         })
       .catch((err) => console.log(err))
+    }
+
+    useEffect(() => {
+      console.log("test Get Post Data!");
+      // let allPosts = [];
+
+      // fetch(`/testGetPost`, {
+      //     method: "POST", 
+      //     body: {}
+      // }).then((res => res.json()))
+      // .then(data => {
+      //   console.log(data);
+      //   console.log("start for loop");
+      //   for (let i = 0; i < data.length; i++) {
+      //     console.log(data[i].post_id);
+      //     console.log(data[i]);
+      //     allPosts.push({
+      //       id: parseInt(data[i].post_id),
+      //       start: {lat: data[i].start[0], lng: data[i].start[1]},
+      //       end: {lat: data[i].end[0], lng: data[i].end[1]}
+      //     })
+      //   }
+      //     console.log(allPosts);
+      //     setPosts(allPosts);
+      //   })
+      // .catch((err) => console.log(err))
+
+      getPost();
 
         // Change posts state
       setMarker(true);
@@ -61,14 +89,36 @@ export default function Map(props) {
 
    }, [])
 
+   function getFilterData (data){
+      const filterData = JSON.stringify(data)
+      const gender = JSON.parse(filterData).Gender
+      const age = JSON.parse(filterData).Age
+      const matchingRadius = JSON.parse(filterData).MatchingRadius
+      // console.log(gender)
+      // console.log(age)
+      // console.log(matchingRadius)
+
+      setFilters({
+        "gender": gender,
+        "age": age,
+        "MatchingRadius": matchingRadius[matchingRadius.length-1]
+      })
+      console.log(filters)
+
+      const bodyData = filters;
+
+   }
+
 
     return (
-      <div className='show-map'>
-        <h1>Find and Match Your Post!</h1>
+      
+      <div className='show-map' style={{display: 'flex'}}>
+        <FilterSidebar setAppliedFilters = {getFilterData}/>
+        {/* <h1>Find and Match Your Post!</h1> */}
         <GoogleMap
       center={center}
       zoom={15}
-      mapContainerStyle={{ width: '1000px', height: '1000px' }}
+      mapContainerStyle={{ width: '100vw', height: '100vh' }}
       options={{
         zoomControl: false,
         streetViewControl: false,
@@ -130,7 +180,6 @@ export default function Map(props) {
       )}
       {open && <DirectionsRenderer directions={props.directions} />}
     </GoogleMap>
-
       </div>
     );
 }
