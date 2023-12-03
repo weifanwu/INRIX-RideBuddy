@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Flask, request, json, jsonify
+from flask import Flask, request, json, jsonify, render_template
 from flask_cors import CORS, cross_origin
 from app import db
 from app.utils.auth_utils import get_token
@@ -27,7 +27,20 @@ def index():
     db.session.add(r2)
     db.session.add(r3)
     db.session.commit()
-    return "<h1 > Home Page </hi>"
+    return render_template('index.html')
+
+
+@main.route('/getToken', methods=['GET'])
+def display_token():
+    # This makes the call to the get_token function in the auth_utils.py file
+    response, status_code = get_token()
+    # If the request is successful, return the token
+    if status_code == 200:
+        api_token = response
+        return jsonify({'message': api_token})
+    #If the request fails, return the error message
+    else:
+        return jsonify({'message': response})
 
 
 @main.route('/postData', methods=['POST'])
