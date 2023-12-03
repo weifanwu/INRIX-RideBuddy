@@ -17,8 +17,8 @@ form_end = None
 def index():
     db.drop_all()
     db.create_all()
-    u1 = User(id=1, name="test", email="test@gmail.com", password="123456", gender="non-binary", age=18, city="Seattle",
-              occupation="student")
+
+    u1 = User(id=1, email="test@gmail.com", password = "123456", username="test", gender="non-binary", age=18, address="Seattle",)
     r1 = Rider(id=1, start=-33.8, end=442.5, content="Travel", time=datetime.utcnow(), user_id=1)
     r2 = Rider(id=2, start=-33.8, end=442.5, content="Travel", time=datetime.utcnow(), user_id=1)
     r3 = Rider(id=3, start=-33.8, end=442.5, content="Travel", time=datetime.utcnow(), user_id=1)
@@ -88,7 +88,8 @@ def register():
     if request.method == 'OPTIONS':
         return jsonify({"message": "Prelight check successful"})
     data = request.json
-    new_user = User(email=data['email'], password=data['password'])
+    new_user = User(name=data['name'], city=data['city'], age=int(data['age']), password=data['password'],
+                    gender=data['gender'], email=data['email'])
     db.session.add(new_user)
     db.session.commit()
     return jsonify({"message": "Sign Up Successful"})
