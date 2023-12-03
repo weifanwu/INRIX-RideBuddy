@@ -59,12 +59,16 @@ function App(props) {
     console.log(destination)
     console.log(date)
     console.log(content)
+    const email = localStorage.getItem("email");
+    console.log("this is emaail in the post: ");
+    console.log(email);
     fetch("/postData", {
       method: "POST",
       headers: {
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
+        email: email,
         start: coo_origin,
         end: coo_destination,
         date: date,

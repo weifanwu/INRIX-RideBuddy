@@ -1,5 +1,6 @@
 from app.models import *
 from ._dev_data import *
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 def insert_user():
