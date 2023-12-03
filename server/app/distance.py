@@ -2,10 +2,13 @@
 Calcuate the lat/long distance between two place
 """
 from math import radians, cos, sin, asin, sqrt
+from faker import Faker
 
-"""
-Calcuate the lat/long distance between two place
-"""
+fake = Faker()
+
+# for _ in range(5):
+#     girl_name = fake.name_female()
+#     print(girl_name)
 
 
 def match(start, end):
@@ -47,12 +50,14 @@ def match(start, end):
     post_id = 0
     # print(len(DATA))
     for point in DATA:
+        # random create name
+        girl_name = fake.name_female()
         distance_start = distance(start[0], point["start"][0], start[1], point["start"][1])
         distance_end = distance(end[0], point["end"][0], end[1], point["end"][1])
         if distance_start <= 3:
             if distance_end <= 3:
                 post_id = post_id + 1
-                matched_points.append({"post_id": post_id, "start": [point["start"][0], point["start"][1]], "end": [point["end"][0], point["end"][1]]})
+                matched_points.append({"post_id": post_id, "start": [point["start"][0], point["start"][1]], "end": [point["end"][0], point["end"][1]], "name": girl_name})
     print("We find " + str(len(matched_points)) + " matched points!")
     return matched_points
 

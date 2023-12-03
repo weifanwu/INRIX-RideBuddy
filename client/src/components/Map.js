@@ -34,18 +34,43 @@ export default function Map(props) {
 
     // Get all nearest posts from backend later
     // set up new posts data for testing multiple markers
-    function getPost() {
+    // function getPost() {
+    //   let allPosts = [];
+
+    //   fetch('/testGetPost', {
+    //       method: "POST",
+    //       headers: {
+    //         'Content-type': 'application/json'
+    //       },
+    //       body: JSON.stringify({
+    //         start: 12,
+    //         end:20
+    //       })
+    //   }).then((res => res.json()))
+    //   .then(data => {
+    //     console.log(data);
+    //     console.log("start for loop");
+    //     for (let i = 0; i < data.length; i++) {
+    //       console.log(data[i].post_id);
+    //       console.log(data[i]);
+    //       allPosts.push({
+    //         id: parseInt(data[i].post_id),
+    //         start: {lat: data[i].start[0], lng: data[i].start[1]},
+    //         end: {lat: data[i].end[0], lng: data[i].end[1]}
+    //       })
+    //     }
+    //       console.log(allPosts);
+    //       setPosts(allPosts);
+    //     })
+    //   .catch((err) => console.log(err))
+    // }
+
+    useEffect(() => {
+      console.log("test Get Post Data!");
       let allPosts = [];
 
-      fetch('/testGetPost', {
-          method: "POST", 
-          headers: {
-            'Content-type': 'application/json'
-          },
-          body: JSON.stringify({
-            start: 12,
-            end:20
-          })
+      fetch(`/testGetPost`, {
+          method: "GET",
       }).then((res => res.json()))
       .then(data => {
         console.log(data);
@@ -63,34 +88,8 @@ export default function Map(props) {
           setPosts(allPosts);
         })
       .catch((err) => console.log(err))
-    }
 
-    useEffect(() => {
-      console.log("test Get Post Data!");
-      // let allPosts = [];
-
-      // fetch(`/testGetPost`, {
-      //     method: "POST", 
-      //     body: {}
-      // }).then((res => res.json()))
-      // .then(data => {
-      //   console.log(data);
-      //   console.log("start for loop");
-      //   for (let i = 0; i < data.length; i++) {
-      //     console.log(data[i].post_id);
-      //     console.log(data[i]);
-      //     allPosts.push({
-      //       id: parseInt(data[i].post_id),
-      //       start: {lat: data[i].start[0], lng: data[i].start[1]},
-      //       end: {lat: data[i].end[0], lng: data[i].end[1]}
-      //     })
-      //   }
-      //     console.log(allPosts);
-      //     setPosts(allPosts);
-      //   })
-      // .catch((err) => console.log(err))
-
-      getPost();
+      // getPost();
 
         // Change posts state
       setMarker(true);
@@ -117,6 +116,7 @@ export default function Map(props) {
       addAdditionalRoute();
     }, [start, end, google]);
 
+
     function getFilterData (data){
       const filterData = JSON.stringify(data)
       const gender = JSON.parse(filterData).Gender
@@ -131,14 +131,42 @@ export default function Map(props) {
         "age": age,
         "MatchingRadius": matchingRadius[matchingRadius.length-1]
       })
-      console.log(filters)
+      console.log(filters);
 
       const bodyData = filters;
 
-   }    
+      // TODO: need to send filter data to database in future
+      let allPosts = [];
+      fetch(`/testGetPost`, {
+        method: "POST",
+        body: JSON.stringify(bodyData)
+      }).then((res => res.json()))
+      .then(data => {
+        console.log(data);
+        console.log("start for loop");
+        for (let i = 0; i < data.length; i++) {
+          console.log(data[i].post_id);
+          console.log(data[i]);
+          allPosts.push({
+            id: parseInt(data[i].post_id),
+            start: {lat: data[i].start[0], lng: data[i].start[1]},
+            end: {lat: data[i].end[0], lng: data[i].end[1]}
+          })
+        }
+          console.log(allPosts);
+          setPosts(allPosts);
+        })
+      .catch((err) => console.log(err))
+
+      // getPost();
+
+        // Change posts state
+      setMarker(true);
+
+   }
 
     return (
-      
+
       <div className='show-map' style={{display: 'flex'}}>
         <FilterSidebar setAppliedFilters = {getFilterData}/>
         {/* <h1>Find and Match Your Post!</h1> */}
