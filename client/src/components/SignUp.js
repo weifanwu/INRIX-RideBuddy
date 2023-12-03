@@ -63,13 +63,20 @@ export default function SignUp() {
       },
       body: JsonData,
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          alert('Failed to sign up');
+          throw new Error('Failed to sign up');
+        }
+      })
       .then((data) => {
         console.log('Success:', data);
       })
       .catch((error) => {
         console.error('Error:', error);
-      });
+      })
   };
 
   return (

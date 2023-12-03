@@ -86,8 +86,8 @@ def register():
         db.session.commit()
     except IntegrityError as e:
         db.session.rollback()
-        return jsonify({"message": "Please try again"}), 401
-    return jsonify({"message": "Sign Up Successful"})
+        return jsonify({"message": "Please Try Again"}), 401
+    return jsonify({"message": "Sign Up Successful"}), 200
 
 
 @main.route('/SignIn', methods=['POST', 'OPTIONS'])
@@ -96,6 +96,6 @@ def login():
     data = request.json
     user = User.query.filter_by(email=data['email']).first()
     if check_password_hash(user.password_hash, data['password']):
-        return jsonify({"message": "Sign In Successful"})
+        return jsonify({"message": "Sign In Successful"}), 200
     else:
-        return jsonify({"message": "Wrong Username or password"}), 401
+        return jsonify({"message": "Wrong Username or Password"}), 401
