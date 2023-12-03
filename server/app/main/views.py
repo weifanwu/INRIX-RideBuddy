@@ -6,8 +6,11 @@ from app import db
 from app.utils.auth_utils import get_token
 from app.models import *
 from . import main
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
+
 from app import distance
 from app.dev._insert_database import reset, insert_all
+
 
 # Global Variables
 form_start = None
@@ -35,20 +38,17 @@ def display_token():
 
 
 @main.route('/postData', methods=['POST'])
+@jwt_required()
 def postData():
-    global form_start
-    global form_end
+
+    user_id = get_jwt_identity()
     data = request.get_json()
-    print("Type: ", type(data['start']))
-    print(data['start'], data['end'])
-    form_start, form_end = data['start'], data['end']
+    # TODO: add user_id
 
-    print("End: " + str(data['end']))
-    print("Start: " + str(data['start']))
-    print("Date: " + data['date'])
-    print("Content: " + data['content'])
-
-    return {"response": 'success'}
+    new_rider = Rider(start=data['start'], end=data['end'], content=data['content'], time=datetime.utcnow(), user_id=user_id)
+    db.session.add(new_rider)
+    db.session.commit()
+    return jsonify({"message": "Post Successful"})
 
 
 @main.route('/testGetPost', methods=['GET'])
@@ -79,6 +79,7 @@ def register():
     if request.method == 'OPTIONS':
         return jsonify({"message": "Prelight check successful"})
     data = request.json
+
     try:
         new_user = User(name=data['name'], email=data['email'], password_hash=generate_password_hash(data['password']),
                         age=int(data['age']), gender=data['gender'], city=data['city'])
@@ -94,6 +95,7 @@ def register():
 @cross_origin()
 def login():
     data = request.json
+
     user = User.query.filter_by(email=data['email']).first()
     if check_password_hash(user.password_hash, data['password']):
         return jsonify({"message": "Sign In Successful"}), 200
