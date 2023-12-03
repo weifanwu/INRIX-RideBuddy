@@ -1,14 +1,18 @@
 from datetime import datetime
+from app.utils.auth_utils import get_token
+from app.utils.find_routes import get_route
 
 from flask import Flask, request, json, jsonify, render_template
 from flask_cors import CORS, cross_origin
 from app import db
-from app.utils.auth_utils import get_token
 from app.models import User, Rider
 from config import Config
 from . import main
 from app import distance
 
+HASH_TOKEN = 'ZTVneGF3dHc0ZHxaTzlINXpQTHZaNkN5bEI3MGswV0YyMnpXeTNDcEgwQzlUMlRZa1Zo'
+APP_ID = 'e5gxawtw4d'
+TOKEN_URL = 'https://api.iq.inrix.com/auth/v1/appToken'
 # Global Variables
 form_start = None
 form_end = None
@@ -29,16 +33,19 @@ def index():
     db.session.commit()
     return render_template('index.html')
 
-
-@main.route('/getToken', methods=['GET'])
-def display_token():
-    # This makes the call to the get_token function in the auth_utils.py file
-    response, status_code = get_token()
+@main.route('/findRoute', methods=['GET'])
+def find_route():
+    point1 = request.args.get('point1')
+    point2 = request.args.get('point2')      
+    response,status_code = get_token()
     # If the request is successful, return the token
     if status_code == 200:
         api_token = response
-        return jsonify({'message': api_token})
-    #If the request fails, return the error message
+        coordinates,status = get_route(point1, point2, api_token)
+        if status == 200:
+            return jsonify({'information': coordinates})
+        else:
+            return jsonify({'message': coordinates})
     else:
         return jsonify({'message': response})
 
@@ -93,7 +100,6 @@ def register():
     db.session.commit()
     return jsonify({"message": "Sign Up Successful"})
 
-
 @main.route('/SignIn', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def login():
@@ -103,3 +109,5 @@ def login():
         return jsonify({"message": "Sign In Successful"})
     else:
         return jsonify({"message": "Wrong Username or password"}), 401
+
+
