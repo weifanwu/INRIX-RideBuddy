@@ -80,7 +80,8 @@ def register():
     if request.method == 'OPTIONS':
         return jsonify({"message": "Prelight check successful"})
     data = request.json
-    new_user = User(email=data['email'], password=data['password'])
+    new_user = User(name=data['name'], city=data['city'], age=int(data['age']), password=data['password'],
+                    gender=data['gender'], email=data['email'])
     db.session.add(new_user)
     db.session.commit()
     return jsonify({"message": "Sign Up Successful"})
