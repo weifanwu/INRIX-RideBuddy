@@ -1,7 +1,7 @@
 import requests
 
-def get_route(point1, point2, token):
 
+def get_route(point1, point2, token):
     try:
         params = {
             "wp_1": point1,
@@ -10,7 +10,7 @@ def get_route(point1, point2, token):
             "format": "json",
             "routeOutputFields": "p"
         }
-        TOKEN_URL="https://api.iq.inrix.com/findRoute"
+        TOKEN_URL = "https://api.iq.inrix.com/findRoute"
         response = requests.get(TOKEN_URL, params=params)
         response.raise_for_status()  # Raise HTTPError for bad responses
 

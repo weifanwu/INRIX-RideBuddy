@@ -30,6 +30,7 @@ def index():
     # insert_all()
     return render_template('index.html')
 
+
 @main.route('/findRoute', methods=['GET'])
 def find_route():
     point1 = request.args.get('point1')
@@ -116,7 +117,6 @@ def register():
         db.session.rollback()
         return jsonify({"message": "Please Try Again"}), 401
     return jsonify({"message": "Sign Up Successful"}), 200
-
 
 
 @main.route('/SignIn', methods=['POST', 'OPTIONS'])
