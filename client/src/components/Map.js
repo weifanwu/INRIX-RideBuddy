@@ -32,7 +32,7 @@ export default function Map(props) {
     const google = window.google;
     const [filters, setFilters] = useState({});
 
-    const [name, setName] = useState("");
+    const [postname, setPostName] = useState("");
 
     const testPostName = "testPost";
 
@@ -160,7 +160,7 @@ export default function Map(props) {
           onClick={() => {
             setStart(object.start);
             setEnd(object.end);
-            setName(object.name);
+            setPostName(object.name);
             setOpen(true);
           }}
         />
@@ -176,7 +176,7 @@ export default function Map(props) {
                   R
                 </Avatar>
               }
-              title={testPostName}
+              title={postname}
               subheader="December 14, 2023"
             />
             <CardContent>
