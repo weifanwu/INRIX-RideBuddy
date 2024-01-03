@@ -28,6 +28,8 @@
 - [MySQL](https://www.mysql.com/)
 - [AWS](https://aws.amazon.com/)
 
+![Architecture](/assets/architecture.png)
+
 ## Prospect
 To maximize impact, collaboration with local communities and government entities could be explored. This could involve promotional campaigns, incentives for participants, or integration with existing public transport systems. Association with government entities can lend credibility to your program, increasing public trust and participation rates.
 
